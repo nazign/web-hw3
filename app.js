@@ -23,16 +23,6 @@ function search(list, keyword) {
 // posterUrl(path, size) : 포스터 경로, 크기 ⇒ TMDB 이미지 주소(문자열)
 function posterUrl(path, size) { return "https://image.tmdb.org/t/p/" + size + path; }
 
-document.querySelector(".board").addEventListener("click", (e) => {
-    if (e.target.classList.contains("like")) {
-        e.target.classList.toggle("liked");
-        updateLikeCount();
-    }
-});
-
-function updateLikeCount() {
-    document.getElementById("likeCount").textContent = document.querySelectorAll(".liked").length;
-}
 // renderCards : 영화 배열 ⇒ 보드에 카드 생성(반환값 없음)
 function renderCards(list) {
     const board = document.querySelector(".board");
@@ -52,6 +42,10 @@ function renderCards(list) {
             card.classList.add("no-poster");
             poster = `<div class="poster-fallback">${m.title[0]}</div>`;
         }
+        let heart = "like";
+        if(liked.includes(m.title)){
+            heart = "like liked";
+        }
         card.innerHTML = `
  ${poster}
  ${rank}
@@ -65,7 +59,7 @@ function renderCards(list) {
 
     }
     document.getElementById("count").textContent = list.length + "편";
-    updateLikeCount();
+    document.getElementById("likeCount").textContent = liked.length;
     if (list.length === 0) {
         board.classList.add("is-empty");
     } else {
@@ -96,3 +90,9 @@ document.getElementById("q").addEventListener("input", refresh);
 document.getElementById("sort").addEventListener("change", refresh);
 document.getElementById("typeFilter").addEventListener("change", refresh);
 refresh();
+
+// 찜한 제목 배열을 브라우저에 저장하고 불러오기
+const liked = JSON.parse(localStorage.getItem("liked") || "[]");
+function saveLiked(){
+    localStorage.setItem("liked", JSON.stringify(liked));
+}
