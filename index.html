@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 영화 보드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- 해더 -->
+    <header class="top">
+        <h1>내 영화 보드</h1>
+        <nav>
+            <ul>
+                <li><a href="#mine">내 인생 영화</a></li>
+                <li><a href="#boxoffice">박스오피스</a></li>
+                <li><a href="detail.html">상세</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 히어로 -->
+    <section class="hero">
+        <h2>요즘 내가 고른 영화 다섯 편</h2>
+        <p>포스터 위에 마우스를 올려 보세요.</p>
+    </section>
+
+    <!-- 메인 -->
+    <main>
+        <div class="toolbar">
+            <input id="q" type="search" placeholder="영화 제목 검색">
+            <fieldest id="typeFilter">
+                <legend>보기</legend>
+                <label><input type="radio" name="type" value="all" checked>전체</label>
+                <label><input type="radio" name="type" value="all" checked>내 영화</label>
+                <label><input type="radio" name="type" value="boxoffice" checked>박스오피스</label>
+            </fieldest>
+            <label for="sort">정렬</label>
+            <select id="sort">
+                <option value="rating">평점순</option>
+                <option value="year">최신 개봉순</option>
+                <option value="title">제목 가나다순</option>
+            </select>
+            <p><span id="count"></span>,찜 <span id="likeCount">0</span>편</p>
+        </div>
+        <section class="board" id="board"></section>
+        <p class="state-empty">조건에 맞는 영화가 없습니다.</p>
+        <dialog id="detail">
+            <div id="detailBody"></div>
+            <button type="button" id="clseDetail">닫기</button>
+        </dialog>
+
+        <section id="about">
+            <h2>이 보드에 대하여</h2>
+            <p>제작자: 박세준<br>시간 가는 줄 모르고 보는 영화</p>
+            <p>포스터와 영화 정보는 TMDB 검색 결과를 그대로 옮겼습니다.</p>
+        </section>
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>이 사이트는 TMDB API를 사용하지만 TMDB의 보증이나 인증을 받지 않았습니다.
+            This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+        <p>포스터와 영화 정보: TMDB (https://www.themoviedb.org)</p>
+        <p>박스오피스 데이터: 영화진흥위원회 영화관입장권통합전산망(KOBIS), 기준일 2026-10-25</p>
+    </footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+
+</html>
