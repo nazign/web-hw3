@@ -21,7 +21,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 16px;
-    font-family: var(--font-body); 
+    font-family: var(--font-body);
     color: var(--text);
 }
 
@@ -60,7 +60,7 @@ body {
 
 .rank {
     position: absolute;
-    top:12px;
+    top: 12px;
     left: 12px;
     background: var(--accent);
     color: var(--text);
@@ -69,26 +69,34 @@ body {
     font-weight: bold;
 }
 
-.change.up::before { 
-    content: "▲"; 
+.change.up::before {
+    content: "▲";
 }
-.change.down::before { 
-    content: "▼"; 
+
+.change.down::before {
+    content: "▼";
 }
-.change.new::before { 
-    content: "NEW"; 
+
+.change.new::before {
+    content: "NEW";
 }
-.change.up, .change.new { 
-    color: var(--warn); 
+
+.change.up,
+.change.new {
+    color: var(--warn);
 }
+
 .change.down {
     color: var(--accent);
 }
 
 .card.no-poster .poster-fallback {
     aspect-ratio: 2 / 3;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 5rem; font-family: var(--font-title);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    font-family: var(--font-title);
     background: linear-gradient(135deg, var(--accent), var(--surface));
 }
 
@@ -98,21 +106,45 @@ body {
 }
 
 .skeleton {
-display: none; min-height: 360px; border-radius: 12px;
-background: linear-gradient(90deg, var(--surface) 25%, var(--bg) 37%, var(--surface) 63%);
-background-size: 400% 100%;
-animation: shimmer 1.4s ease-in-out infinite;
+    display: none;
+    min-height: 360px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--surface) 25%, var(--bg) 37%, var(--surface) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
 }
-body.is-loading .skeleton { display: block; }
-body.is-loading .card { display: none; }
 
-.card { animation: rise 0.6s backwards; }
+body.is-loading .skeleton {
+    display: block;
+}
 
-.card:nth-child(6) { animation-delay: 0.4s; }
-.card:nth-child(7) { animation-delay: 0.5s; }
-.card:nth-child(8) { animation-delay: 0.6s; }
-.card:nth-child(9) { animation-delay: 0.7s; }
-.card:nth-child(10) { animation-delay: 0.8s; }
+body.is-loading .card {
+    display: none;
+}
+
+.card {
+    animation: rise 0.6s backwards;
+}
+
+.card:nth-child(6) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(7) {
+    animation-delay: 0.5s;
+}
+
+.card:nth-child(8) {
+    animation-delay: 0.6s;
+}
+
+.card:nth-child(9) {
+    animation-delay: 0.7s;
+}
+
+.card:nth-child(10) {
+    animation-delay: 0.8s;
+}
 
 @keyframes pulse {
 
@@ -175,14 +207,14 @@ footer {
 }
 
 .detail {
-    display: grid; 
-    grid-template-columns: 1fr; 
+    display: grid;
+    grid-template-columns: 1fr;
     gap: var(--gap);
 }
 
 .detail-page {
     background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("https://image.tmdb.org/t/p/w1280/8sNiAPPYU14PUepFNeSNGUTiHW.jpg");
-    background-size: cover; 
+    background-size: cover;
     min-height: 100vh;
 }
 
@@ -193,8 +225,14 @@ footer {
         flex-direction: row;
         gap: var(--gap);
     }
-    .detail { grid-template-columns: 1fr 2fr; }
-    .detail img { width: 100%; }
+
+    .detail {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .detail img {
+        width: 100%;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -208,21 +246,38 @@ footer {
 }
 
 @media (prefers-color-scheme: dark) {
-    .card { background: #1f2429; color: #eee; } 
+    .card {
+        background: #1f2429;
+        color: #eee;
+    }
+
     :root {
-        --bg: #0b0f19;       /* 더 어두운 배경색 */
-        --surface: #161e2e;  /* 카드 등의 어두운 표면색 */
-        --text: #f5f5f7;     /* 밝은 텍스트 색 */
+        --bg: #0b0f19;
+        /* 더 어두운 배경색 */
+        --surface: #161e2e;
+        /* 카드 등의 어두운 표면색 */
+        --text: #f5f5f7;
+        /* 밝은 텍스트 색 */
         --accent: #4da3ff;
         --warn: #ff5a5f;
     }
 }
 
-@keyframes rise { from { opacity: 0; transform: translateY(20px); } }
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
 
 @keyframes shimmer {
-from { background-position: 100% 50%; }
-to { background-position: 0 50%; }
+    from {
+        background-position: 100% 50%;
+    }
+
+    to {
+        background-position: 0 50%;
+    }
 }
 
 .card.hot .badge {
@@ -252,4 +307,8 @@ to { background-position: 0 50%; }
 .state-empty {
     display: none;
     color: #fff;
+}
+
+.board.is-empty+.state-empty {
+    display: block;
 }

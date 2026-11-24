@@ -1,8 +1,5 @@
-// 찜한 제목 배열을 브라우저에 저장하고 불러오기
 const liked = JSON.parse(localStorage.getItem("liked") || "[]");
-function saveLiked() {
-    localStorage.setItem("liked", JSON.stringify(liked));
-}
+const dialog = document.getElementById("detail");
 
 // sortBy : 영화 배열, 키 이름, 내림차순 여부 ⇒ 정렬한 새 배열(원본은 그대로)
 function sortBy(list, key, desc) {
@@ -12,7 +9,7 @@ function sortBy(list, key, desc) {
         if (typeof a[key] === "string") return a[key].localeCompare(b[key]) * sign;
         return (a[key] - b[key]) * sign;
     });
-
+    
     return copy;
 }
 // search(list, keyword) : 배열, 문자열 ⇒ 새 배열
@@ -29,6 +26,18 @@ function search(list, keyword) {
 
 // posterUrl(path, size) : 포스터 경로, 크기 ⇒ TMDB 이미지 주소(문자열)
 function posterUrl(path, size) { return "https://image.tmdb.org/t/p/" + size + path; }
+
+// openDetail : 제목 -> 상세 대화상자를 채워서 열기(반환값 없음)
+function openDetail(title) {
+    const movie = movies.find(m => m.title === title);
+    if (!movie) return;
+    document.getElementById("detailBody").innerHTML = `
+    <img src="${posterUrl(movie.poster, "w500")}" alt=${movie.title} 포스터">
+    <h2>${movie.title}</h2>
+    <p>개봉일 ${movie.date}, 평점 ${movie.rating}</p>
+    <p>${movie.overview}</p>`;
+    dialog.showModal();
+}
 
 // renderCards : 영화 배열 ⇒ 보드에 카드 생성(반환값 없음)
 function renderCards(list) {
@@ -61,9 +70,8 @@ function renderCards(list) {
     <h3>${m.title}</h3>
     <p class="year">${m.year}</p>
     <button class = "${heart}" type="button">♥</button>
- </div>`;
+    </div>`;
         board.appendChild(card);
-
     }
     document.getElementById("count").textContent = list.length + "편";
     document.getElementById("likeCount").textContent = liked.length;
@@ -93,6 +101,11 @@ function refresh() {
     renderCards(getView());
 }
 
+// 찜한 제목 배열을 브라우저에 저장하고 불러오기
+function saveLiked() {
+    localStorage.setItem("liked", JSON.stringify(liked));
+}
+
 // ===== 이벤트 : 랜더 함수 밖, 맨 아래 한 곳에서 한 번씩 =====
 document.getElementById("q").addEventListener("input", refresh);
 document.getElementById("sort").addEventListener("change", refresh);
@@ -114,4 +127,8 @@ document.querySelector(".board").addEventListener("click", (e) => {
         refresh();
         return;
     }
+    openDetail(title);
+});
+document.getElementById("closeDetail").addEventListener("click", () =>{
+    dialog.close();
 });
