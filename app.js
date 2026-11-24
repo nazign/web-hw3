@@ -1,3 +1,9 @@
+// 찜한 제목 배열을 브라우저에 저장하고 불러오기
+const liked = JSON.parse(localStorage.getItem("liked") || "[]");
+function saveLiked() {
+    localStorage.setItem("liked", JSON.stringify(liked));
+}
+
 // sortBy : 영화 배열, 키 이름, 내림차순 여부 ⇒ 정렬한 새 배열(원본은 그대로)
 function sortBy(list, key, desc) {
     const copy = [...list];
@@ -23,6 +29,16 @@ function search(list, keyword) {
 // posterUrl(path, size) : 포스터 경로, 크기 ⇒ TMDB 이미지 주소(문자열)
 function posterUrl(path, size) { return "https://image.tmdb.org/t/p/" + size + path; }
 
+document.querySelector(".board").addEventListener("click", (e) => {
+    if (e.target.classList.contains("like")) {
+        e.target.classList.toggle("liked");
+        updateLikeCount();
+    }
+});
+
+function updateLikeCount() {
+    document.getElementById("likeCount").textContent = document.querySelectorAll(".liked").length;
+}
 // renderCards : 영화 배열 ⇒ 보드에 카드 생성(반환값 없음)
 function renderCards(list) {
     const board = document.querySelector(".board");
@@ -43,7 +59,7 @@ function renderCards(list) {
             poster = `<div class="poster-fallback">${m.title[0]}</div>`;
         }
         let heart = "like";
-        if(liked.includes(m.title)){
+        if (liked.includes(m.title)) {
             heart = "like liked";
         }
         card.innerHTML = `
@@ -53,19 +69,20 @@ function renderCards(list) {
  <div class="info">
     <h3>${m.title}</h3>
     <p class="year">${m.year}</p>
-    <button class = "like" type="button">♥</button>
+    <button class = "${heart}" type="button">♥</button>
  </div>`;
         board.appendChild(card);
 
     }
     document.getElementById("count").textContent = list.length + "편";
-    document.getElementById("likeCount").textContent = liked.length;
+    updateLikeCount();
     if (list.length === 0) {
         board.classList.add("is-empty");
     } else {
         board.classList.remove("is-empty");
     }
 }
+
 renderCards(movies);
 
 // getview : 없음 -> 검색어로 거른 뒤 선택 상자 기준으로 정렬한 새 배열
@@ -73,8 +90,8 @@ function getView() {
     const keyword = document.getElementById("q").value;
     const type = document.querySelector(`input[name="type"]:checked`).value;
     const key = document.getElementById("sort").value;
-    let list= search(movies, keyword);
-    if (type !== "all"){
+    let list = search(movies, keyword);
+    if (type !== "all") {
         list = list.filter(m => m.type === type);
     }
     return sortBy(list, key, key !== "title");
@@ -90,9 +107,3 @@ document.getElementById("q").addEventListener("input", refresh);
 document.getElementById("sort").addEventListener("change", refresh);
 document.getElementById("typeFilter").addEventListener("change", refresh);
 refresh();
-
-// 찜한 제목 배열을 브라우저에 저장하고 불러오기
-const liked = JSON.parse(localStorage.getItem("liked") || "[]");
-function saveLiked(){
-    localStorage.setItem("liked", JSON.stringify(liked));
-}
