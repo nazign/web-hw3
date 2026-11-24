@@ -26,19 +26,10 @@ function search(list, keyword) {
     }
     return listDic;
 }
+
 // posterUrl(path, size) : 포스터 경로, 크기 ⇒ TMDB 이미지 주소(문자열)
 function posterUrl(path, size) { return "https://image.tmdb.org/t/p/" + size + path; }
 
-document.querySelector(".board").addEventListener("click", (e) => {
-    if (e.target.classList.contains("like")) {
-        e.target.classList.toggle("liked");
-        updateLikeCount();
-    }
-});
-
-function updateLikeCount() {
-    document.getElementById("likeCount").textContent = document.querySelectorAll(".liked").length;
-}
 // renderCards : 영화 배열 ⇒ 보드에 카드 생성(반환값 없음)
 function renderCards(list) {
     const board = document.querySelector(".board");
@@ -75,7 +66,7 @@ function renderCards(list) {
 
     }
     document.getElementById("count").textContent = list.length + "편";
-    updateLikeCount();
+    document.getElementById("likeCount").textContent = liked.length;
     if (list.length === 0) {
         board.classList.add("is-empty");
     } else {
@@ -107,3 +98,20 @@ document.getElementById("q").addEventListener("input", refresh);
 document.getElementById("sort").addEventListener("change", refresh);
 document.getElementById("typeFilter").addEventListener("change", refresh);
 refresh();
+
+document.querySelector(".board").addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+    const title = card.getAttribute("data-title");
+    if (e.target.closest(".like")) {
+        const i = liked.indexOf(title);
+        if (i === -1) {
+            liked.push(title);
+        } else {
+            liked.splice(i, 1);
+        }
+        saveLiked();
+        refresh();
+        return;
+    }
+});
